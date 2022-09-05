@@ -21,9 +21,13 @@ const connectToMongoDB = async () => {
         const result = await itemSchema.find({
             name: 'Acorn',
         })
-        console.log('Result: ', result)
-
-      } finally {
+        console.log('Result: ', result[0].name + ' ' + result[0].id)
+        //console.log('Result: ', result)
+      } 
+      catch(err) {
+        console.error(err.message);
+      }
+      finally {
         mongoose.connection.close()
       }
     })
