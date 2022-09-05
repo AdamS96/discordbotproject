@@ -18,7 +18,9 @@ module.exports = {
                 console.log('Connected to mongodb!')
                 console.log(`Item Name: ${itemName}`)
                 const result = await itemSchema.find({
-                    name: `${itemName}`,
+                  //  name: `${itemName}`,
+                  name: {$regex : itemName.toString(), "$options": "i" }
+                //    name : {$regex : `${itemName}`},
                 })
                 console.log('Result: ', result[0].name + ' ' + result[0].id)
                 itemID = result[0].id
