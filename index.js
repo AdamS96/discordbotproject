@@ -37,6 +37,9 @@ const connectToMongoDB = async () => {
 
 
   client.on('ready', () => {
+    let handler = require('./command-handler')
+    if(handler.default) handler = handler.default
+    handler(client)
     console.log('Bot is ready')
 })
 
