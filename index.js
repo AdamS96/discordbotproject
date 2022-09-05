@@ -1,5 +1,8 @@
 const {Client, GatewayIntentBits} = require('discord.js')
 require('dotenv/config')
+const itemSchema = require('./schemas/item-schema')
+const mongo = require('./mongo')
+
 
 const client = new Client({
     intents: [
@@ -9,9 +12,30 @@ const client = new Client({
     ],
 })
 
-client.on('ready', () => {
+
+const connectToMongoDB = async () => {
+    await mongo().then(async (mongoose) => {
+      try {
+        console.log('Connected to mongodb!')
+
+        const result = await itemSchema.find({
+            name: 'Acorn',
+        })
+        console.log('Result: ', result)
+
+      } finally {
+        mongoose.connection.close()
+      }
+    })
+  }
+  
+  connectToMongoDB()
+
+
+  client.on('ready', () => {
     console.log('Bot is ready')
 })
+
 
 client.on('messageCreate', message => {
     if (message.content === 'ping'){
